@@ -8,3 +8,19 @@
         @apply w-14 h-14  flex items-center rounded-lg  justify-center mx-auto bg-gray-100/10 text-indigo-600
     }
 }
+
+*::-webkit-scrollbar{
+    width:0px;
+    background:transparent
+}
+
+*::-webkit-scrollbar-thumb{
+    width:0px;
+    background:none;
+    border-radius: 50px;
+}
+
+#rightside::-webkit-scrollbar{
+    width:0px;
+    background:#090420
+}
