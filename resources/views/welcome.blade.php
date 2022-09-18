@@ -133,7 +133,7 @@
                     <div class="h-[64vh] rounded-tl-3xl rounded-tr-3xl rounded-br-[45px] p-3 2xl:p-10 overflow-y-scroll bg-white mt-10">
                         <p class="text-2xl font-bold mb-3 2xl:mb-10">Photos</p>
                         <div class="grid grid-cols-2 gap-5">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover  rounded-xl" alt="">
+                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover col-span-2 rounded-xl" alt="">
                             <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
                             <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
                             <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
