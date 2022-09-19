@@ -7,6 +7,10 @@
     .activeMenu{
         @apply w-14 h-14  flex items-center rounded-lg  justify-center mx-auto bg-gray-100/10 text-indigo-600
     }
+
+    .loginform{
+        @apply focus:outline-none text-white p-3 px-4 bg-indigo-900 rounded-lg
+    }
 }
 
 *::-webkit-scrollbar{
