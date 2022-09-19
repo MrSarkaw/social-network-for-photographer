@@ -1,15 +1,40 @@
 @extends('layouts.public')
 
 @section('content')
-    <div class="w-full bg-gray-500 h-48"></div>
-    <img src="" class="w-32 mx-auto -mt-[75px] h-32 rounded-full bg-red-500" alt="">
-    <div class="w-5/12 mx-auto text-center pt-3">
-        <p class="text-xl font-bold">Sarkaw Salar</p>
-        <p class="text-sm text-gray-400">iraq</p>
-        <p class="text-xs text-gray-600 mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero necessitatibus minima reprehenderit deserunt obcaecati assumenda optio laboriosam? Ab neque distinctio minus quo eligendi, animi cumque aspernatur, ullam, voluptatibus ad eveniet.</p>
+    <div class="w-full bg-gray-500 relative h-48">
+        <form id="form1" action="{{ route('update.cover') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method("PUT")
+            <input onchange="formsubmit('form1')" type="file" name="file" class="absolute bottom-10 left-10">
+        </form>
+        @if($user->cover)
+        <img src="{{ asset("coverimage/".$user->cover) }}" class="w-full h-full object-cover" alt="">
+        @else
+        <img src="http://wallpapers.net/web/wallpapers/reflection-of-neon-lights-at-street-hd-wallpaper/2560x1440.jpeg" class="w-full h-full object-cover" alt="">
+        @endif
     </div>
 
-    <div class="flex mt-12 items-center justify-between w-10/12 mx-auto">
+    <div class="relative">
+        @if($user->avatar)
+        <img src="{{ asset("coverimage/".$user->avatar) }}" class="w-32 mx-auto relative -top-[75px] h-32 rounded-full bg-red-500" alt="">
+        @else
+        <img src="https://static.vecteezy.com/system/resources/previews/003/420/257/non_2x/unknown-person-icon-vector.jpg" class="w-32 mx-auto relative -top-[75px] h-32 rounded-full bg-red-500" alt="">
+        @endif
+        <form id="form2" action="{{ route('update.cover') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method("PUT")
+            <input type="hidden" name="profile" value="profile">
+            <input onchange="formsubmit('form2')" type="file" name="file" class="absolute text-xs bottom-20 left-10" style="left:45%; transform:translateX(-45%)">
+        </form>
+    </div>
+
+    <div class="w-5/12 -top-20 relative mx-auto text-center pt-3">
+        <p class="text-xl font-bold">{{ $user->name }}</p>
+        <p class="text-sm text-gray-400">{{$user->location}}</p>
+        <p class="text-xs text-gray-600 mt-4">{{ $user->bio }}</p>
+    </div>
+
+    <div class="flex  items-center justify-between w-10/12 mx-auto">
         <div class="space-x-14 font-bold flex items-center justify-between">
             <div class="text-center">
                 <p class="text-sm">20</p>
@@ -26,7 +51,7 @@
         </div>
 
         <div>
-            <button class="px-4 py-2 rounded bg-indigo-500 text-white">
+            <button onclick="toggleModal()" class="px-4 py-2 rounded bg-indigo-500 text-white">
                 <i class="fas fa-cog"></i>
             </button>
         </div>
@@ -73,4 +98,92 @@
             </div>
         </div>
     </div>
+
+
+    <div id="modal" class="absolute hidden flex items-center justify-center z-50 bg-white w-full h-screen top-0 left-0">
+        <div >
+            <button class="text-xl" onclick="toggleModal()">X</button>
+            <form class="space-y-5"  method="POST" action="{{ route('update.profile') }}">
+                @csrf
+                @method('PUT')
+                <div class="grid grid-cols-2 gap-4">
+
+                    <div class="space-y-2">
+                        <p>Email</p>
+                        <input type="text" name="email" class="loginform" placeholder="example@gmail.com" value="{{ $user->email }}">
+                        @error('email')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <p>name</p>
+                        <input type="text" name="name" class="loginform" placeholder="example" value="{{ $user->name }}">
+                        @error('name')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <p>Password</p>
+                        <input type="password" name="password" class="loginform" placeholder="*******">
+
+                        @error('password')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="space-y-2">
+                        <p>Confirmation Password</p>
+                        <input type="password" name="confirmation_password" class="loginform" placeholder="*******">
+
+                        @error('password')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="space-y-2">
+                        <p>Location</p>
+                        <input type="text" name="location" class="loginform" placeholder="example" value="{{ $user->location }}">
+                        @error('name')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                </div>
+                <div class="space-y-2">
+                    <p>bio</p>
+                   <textarea name="bio"  class="loginform w-full" rows="4">{{ $user->bio }}</textarea>
+                    @error('name')
+                        <span class="text-xs text-red-500" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
+
+                    <button class="px-10 py-2 rounded-lg border-2 hover:bg-indigo-900 hover:text-white border-indigo-900">Update</button>
+
+                </form>
+        </div>
+    </div>
+
+    <script>
+        const formsubmit = (id)=>{
+            document.getElementById(id).submit();
+        }
+
+        const toggleModal = ()=>{
+            document.getElementById('modal').classList.toggle('hidden');
+        }
+    </script>
 @endsection
