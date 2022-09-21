@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,22 @@ class UserController extends Controller
         else
         $user->update($request->only('name', 'email', 'location', 'bio'));
 
+        return redirect()->back();
+    }
+
+
+    public function categoryStore(Request $request){
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        auth()->user()->categories()->create($request->only('name', 'user_id'));
+
+        return redirect()->back();
+    }
+
+    public function deleteCategory($id){
+        auth()->user()->categories()->findOrFail($id)->delete();
         return redirect()->back();
     }
 }

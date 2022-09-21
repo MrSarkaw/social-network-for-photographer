@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::where('id', auth()->id())->firstOrFail();
+        $user = User::where('id', auth()->id())->with('categories')->firstOrFail();
         return view('home', compact('user'));
     }
 }

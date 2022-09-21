@@ -5,7 +5,10 @@
         <form id="form1" action="{{ route('update.cover') }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("PUT")
-            <input onchange="formsubmit('form1')" type="file" name="file" class="absolute bottom-10 left-10">
+            <button type="button" onclick="document.getElementById('coverinp').click()" class="absolute text-xl text-indigo-800 bottom-10 left-10 bg-white px-4 py-2 rounded" >
+                <i class="fas fa-image"></i>
+            </button>
+            <input id="coverinp" onchange="formsubmit('form1')" type="file" name="file" class="hidden">
         </form>
         @if($user->cover)
         <img src="{{ asset("coverimage/".$user->cover) }}" class="w-full h-full object-cover" alt="">
@@ -24,7 +27,8 @@
             @csrf
             @method("PUT")
             <input type="hidden" name="profile" value="profile">
-            <input onchange="formsubmit('form2')" type="file" name="file" class="absolute text-xs bottom-20 left-10" style="left:45%; transform:translateX(-45%)">
+            <button type="button" onclick="document.getElementById('avatarinpt').click()" class="absolute text-lg text-indigo-800 bottom-20 left-10" style="left:45%; transform:translateX(-45%)"><i class="fas fa-image"></i></button>
+            <input id="avatarinpt" onchange="formsubmit('form2')" type="file" name="file" class="hidden">
         </form>
     </div>
 
@@ -51,7 +55,7 @@
         </div>
 
         <div>
-            <button onclick="toggleModal()" class="px-4 py-2 rounded bg-indigo-500 text-white">
+            <button onclick="toggleModal('modal')" class="px-4 py-2 rounded bg-indigo-500 text-white">
                 <i class="fas fa-cog"></i>
             </button>
         </div>
@@ -60,23 +64,20 @@
     <div class="bg-gray-200 py-2 mt-4">
         <div class=" w-10/12 mx-auto flex-wrap  px-2 text-white flex space-x-3  text-xs  text-center">
             <div>
-                <button class="px-6 py-1 mt-2 text-white bg-green-700 border border-green-700  rounded ">Add <i class="fas fa-plus"></i></button>
+                <button  onclick="toggleModal('categorymodal')" class="px-6 py-1 mt-2 text-white bg-green-700 border border-green-700  rounded ">Add <i class="fas fa-plus"></i></button>
              </div>
-            <div>
-               <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">Follow</button>
-            </div>
-            <div>
-                <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">Follow</button>
-             </div>
-             <div>
-                <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">Follow</button>
-             </div>
-             <div>
-                <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">Follow</button>
-             </div>
-             <div>
-                <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">Follow</button>
-             </div>
+
+             @foreach ($user->categories as $row )
+                <div class="relative">
+                    <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">{{ $row->name }}</button>
+                    <form id="{{$row->id}}" action="{{route('category.delete', ['id' => $row->id])}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" onclick="deleteData({{ $row->id }})" class="absolute top-0 text-red-500 right-0 text-sm"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+             @endforeach
+
 
 
         </div>
@@ -102,7 +103,7 @@
 
     <div id="modal" class="absolute hidden flex items-center justify-center z-50 bg-white w-full h-screen top-0 left-0">
         <div >
-            <button class="text-xl" onclick="toggleModal()">X</button>
+            <button class="text-xl" onclick="toggleModal('modal')">X</button>
             <form class="space-y-5"  method="POST" action="{{ route('update.profile') }}">
                 @csrf
                 @method('PUT')
@@ -110,7 +111,7 @@
 
                     <div class="space-y-2">
                         <p>Email</p>
-                        <input type="text" name="email" class="loginform" placeholder="example@gmail.com" value="{{ $user->email }}">
+                        <input type="text" name="email" class="input" placeholder="example@gmail.com" value="{{ $user->email }}">
                         @error('email')
                             <span class="text-xs text-red-500" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -120,7 +121,7 @@
 
                     <div class="space-y-2">
                         <p>name</p>
-                        <input type="text" name="name" class="loginform" placeholder="example" value="{{ $user->name }}">
+                        <input type="text" name="name" class="input" placeholder="example" value="{{ $user->name }}">
                         @error('name')
                             <span class="text-xs text-red-500" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -130,7 +131,7 @@
 
                     <div class="space-y-2">
                         <p>Password</p>
-                        <input type="password" name="password" class="loginform" placeholder="*******">
+                        <input type="password" name="password" class="input" placeholder="*******">
 
                         @error('password')
                             <span class="text-xs text-red-500" role="alert">
@@ -140,7 +141,7 @@
                     </div>
                     <div class="space-y-2">
                         <p>Confirmation Password</p>
-                        <input type="password" name="confirmation_password" class="loginform" placeholder="*******">
+                        <input type="password" name="confirmation_password" class="input" placeholder="*******">
 
                         @error('password')
                             <span class="text-xs text-red-500" role="alert">
@@ -151,7 +152,7 @@
 
                     <div class="space-y-2">
                         <p>Location</p>
-                        <input type="text" name="location" class="loginform" placeholder="example" value="{{ $user->location }}">
+                        <input type="text" name="location" class="input" placeholder="example" value="{{ $user->location }}">
                         @error('name')
                             <span class="text-xs text-red-500" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -162,7 +163,7 @@
                 </div>
                 <div class="space-y-2">
                     <p>bio</p>
-                   <textarea name="bio"  class="loginform w-full" rows="4">{{ $user->bio }}</textarea>
+                   <textarea name="bio"  class="input w-full" rows="4">{{ $user->bio }}</textarea>
                     @error('name')
                         <span class="text-xs text-red-500" role="alert">
                             <strong>{{ $message }}</strong>
@@ -177,13 +178,44 @@
         </div>
     </div>
 
+    <div id="categorymodal" class="absolute hidden p-2 rounded bg-white shadow-lg" style="left: 50%; top:50%; transform: translate(-50%, -50%)">
+        <button  onclick="toggleModal('categorymodal')" class="text-xl text-red-500 mb-3"><i class="fas fa-times"></i></button>
+        <form action="{{ route('category.store') }}" method="post">
+            @csrf
+            <input type="text" class="w-full input" name="name">
+            <button class="mt-3">Add</button>
+        </form>
+    </div>
+
     <script>
         const formsubmit = (id)=>{
             document.getElementById(id).submit();
         }
 
-        const toggleModal = ()=>{
-            document.getElementById('modal').classList.toggle('hidden');
+        const toggleModal = (id)=>{
+            document.getElementById(id).classList.toggle('hidden');
+        }
+
+        const deleteData = (id)=>{
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+
+                    document.getElementById(id).submit();
+                }
+            })
         }
     </script>
 @endsection

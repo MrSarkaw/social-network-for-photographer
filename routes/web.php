@@ -27,4 +27,6 @@ Route::middleware(['auth'])->group(function () {
     //user
     Route::put('profile/update/cover', [UserController::class, 'updateCover'])->name('update.cover');
     Route::put('profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
+    Route::post('profile/create/category', [UserController::class, 'categoryStore'])->name('category.store');
+    Route::delete('profile/delete/category/{id}', [UserController::class, 'deleteCategory'])->name('category.delete');
 });
