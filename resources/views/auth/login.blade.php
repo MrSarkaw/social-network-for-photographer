@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="h-screen flex items-center justify-center">
-    <div class="w-3/12 space-y-5 p-4 py-8  rounded shadow-lg">
+    <div class="w-3/12 flex justify-center space-y-5 p-4 py-8  rounded shadow-lg">
       <form class="space-y-5" method="POST" action="{{ route('login') }}">
         @csrf
             <div class="space-y-2">
