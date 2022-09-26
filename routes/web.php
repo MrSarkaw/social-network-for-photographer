@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\CategoryController;
+use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +27,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth'])->group(function () {
     //user
-    Route::put('profile/update/cover', [UserController::class, 'updateCover'])->name('update.cover');
-    Route::put('profile/update', [UserController::class, 'updateProfile'])->name('update.profile');
-    Route::post('profile/create/category', [UserController::class, 'categoryStore'])->name('category.store');
-    Route::delete('profile/delete/category/{id}', [UserController::class, 'deleteCategory'])->name('category.delete');
+    Route::put('profile/update/cover', [ProfileController::class, 'updateCover'])->name('update.cover');
+    Route::put('profile/update', [ProfileController::class, 'updateProfile'])->name('update.profile');
+    Route::post('profile/create/category', [CategoryController::class, 'categoryStore'])->name('category.store');
+    Route::delete('profile/delete/category/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
+    Route::post('/profile/post', [PostController::class, 'store'])->name('post.store');
 });

@@ -62,23 +62,28 @@
     </div>
 
     <div class="bg-gray-200 py-2 mt-4">
-        <div class=" w-10/12 mx-auto flex-wrap  px-2 text-white flex space-x-3  text-xs  text-center">
+        <div class=" w-10/12 mx-auto px-2 text-white flex  text-xs  text-center justify-between">
+            <div class="flex space-x-3 flex-wrap ">
+                <div>
+                    <button  onclick="toggleModal('categorymodal')" class="btnadd">Add <i class="fas fa-plus"></i></button>
+                 </div>
+
+                 @foreach ($user->categories as $row )
+                    <div class="relative">
+                        <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">{{ $row->name }}</button>
+                        <form id="{{$row->id}}" action="{{route('category.delete', ['id' => $row->id])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" onclick="deleteData({{ $row->id }})" class="absolute top-0 text-red-500 right-0 text-sm"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                 @endforeach
+            </div>
             <div>
-                <button  onclick="toggleModal('categorymodal')" class="px-6 py-1 mt-2 text-white bg-green-700 border border-green-700  rounded ">Add <i class="fas fa-plus"></i></button>
-             </div>
-
-             @foreach ($user->categories as $row )
-                <div class="relative">
-                    <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">{{ $row->name }}</button>
-                    <form id="{{$row->id}}" action="{{route('category.delete', ['id' => $row->id])}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" onclick="deleteData({{ $row->id }})" class="absolute top-0 text-red-500 right-0 text-sm"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-             @endforeach
-
-
+                <div>
+                    <button onclick="toggleModal('postmodal')" class="btnadd ">Add Post <i class="fas fa-plus"></i></button>
+                 </div>
+            </div>
 
         </div>
 
@@ -184,6 +189,25 @@
             @csrf
             <input type="text" class="w-full input" name="name">
             <button class="mt-3">Add</button>
+        </form>
+    </div>
+
+
+    <div id="postmodal" class="absolute hidden w-3/12 p-2 rounded bg-white shadow-lg" style="left: 50%; top:50%; transform: translate(-50%, -50%)">
+        <button  onclick="toggleModal('postmodal')" class="text-xl text-red-500 mb-3"><i class="fas fa-times"></i></button>
+        <form action="{{ route('post.store') }}" method="post" class="space-y-3" enctype="multipart/form-data">
+            @csrf
+            <input type="text" class="w-full input" name="caption" placeholder="caption">
+            <input type="file" class="w-full input" name="file[]">
+
+            <select name="category_id" class="input w-full">
+                @foreach ($user->categories as $row )
+                   <option value="{{ $row->id }}">
+                        {{$row->name}}
+                   </option>
+                 @endforeach
+            </select>
+            <button class="mt-3 btnadd">Add</button>
         </form>
     </div>
 
