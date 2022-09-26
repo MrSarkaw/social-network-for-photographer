@@ -88,20 +88,38 @@
         </div>
 
         <div class="g p-2 mt-10 pb-20 space-y-4">
+            @foreach ($user->posts as $row)
             <div class="w-5/12 bg-white mx-auto shadow rounded-xl p-2 ">
-                <div class="flex items-center justify-between space-x-4">
+                <div class="flex items-center relative justify-between space-x-4">
                     <div class="flex items-center space-x-4">
                         <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="object-cover p-[2px] w-16 h-16 rounded-full bg-white" alt="">
                         <div>
-                            <p>Lanya</p>
-                            <p class="text-sm text-gray-400">2 min ago</p>
+                            <p>{{ $user->name }}</p>
+                            <p class="text-sm text-gray-400">{{$row->created_at->diffForHumans()}}</p>
                         </div>
                     </div>
-                    <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    <button onclick="toggleModal('delelepostmodal{{ $row->id }}')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    <div id="delelepostmodal{{ $row->id }}" class="absolute right-6 hidden">
+                        <form id="post{{$row->id}}" class="text-center w-full" action="{{route('post.delete', ['id' => $row->id])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" onclick="deleteData('post'+{{ $row->id }})" class=" bg-red-600 text-white w-16  shadow-lg rounded p-1 "><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
                 </div>
-                <p class="text-sm m-2 my-4">title</p>
-                <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
+                <p class="text-sm m-2 my-4">{{ $row->title }}</p>
+                @if(count($row->image) > 1)
+                    <div class="grid grid-cols-2 gap-4">
+                        @foreach ($row->image as $row2)
+                             <img src="{{ asset('postimage/'.$row2) }}" class="object-cover h-40 rounded-xl" alt="">
+                        @endforeach
+                    </div>
+                @else
+                    <img src="{{ asset('postimage/'.$row->image[0]) }}" class="object-cover rounded-xl" alt="">
+                @endif
             </div>
+            @endforeach
+
         </div>
     </div>
 
@@ -198,7 +216,7 @@
         <form action="{{ route('post.store') }}" method="post" class="space-y-3" enctype="multipart/form-data">
             @csrf
             <input type="text" class="w-full input" name="caption" placeholder="caption">
-            <input type="file" class="w-full input" name="file[]">
+            <input type="file" class="w-full input" multiple name="file[]">
 
             <select name="category_id" class="input w-full">
                 @foreach ($user->categories as $row )

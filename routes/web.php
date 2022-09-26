@@ -32,4 +32,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profile/create/category', [CategoryController::class, 'categoryStore'])->name('category.store');
     Route::delete('profile/delete/category/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
     Route::post('/profile/post', [PostController::class, 'store'])->name('post.store');
+    Route::delete('/profile/delete/{id}', [PostController::class, 'delete'])->name('post.delete');
 });

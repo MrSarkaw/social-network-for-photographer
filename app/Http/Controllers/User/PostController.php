@@ -29,4 +29,10 @@ class PostController extends Controller
         return redirect()->back();
 
     }
+
+    public function delete($id){
+        auth()->user()->posts()->findOrFail($id)->delete();
+        
+        return redirect()->back();
+    }
 }

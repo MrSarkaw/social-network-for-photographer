@@ -10,4 +10,10 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = ['category_id', 'img', 'caption', 'user_id'];
+
+    protected $appends = ['image'];
+
+    public function getImageAttribute(){
+        return json_decode($this->img);
+    }
 }
