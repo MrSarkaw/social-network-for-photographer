@@ -16,4 +16,8 @@ class Post extends Model
     public function getImageAttribute(){
         return json_decode($this->img);
     }
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

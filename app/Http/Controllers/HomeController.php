@@ -22,9 +22,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::where('id', auth()->id())->with('categories', 'posts')->firstOrFail();
+        $user = User::where('id', auth()->id())->with(['categories' => function($q){
+            $q->withCount('posts');
+        }, 'posts' =>function($q) use($request){
+            $q->with('category');
+
+            if($request->category_id)
+            $q->where('category_id', $request->category_id);
+        }])->firstOrFail();
         return view('home', compact('user'));
     }
 }

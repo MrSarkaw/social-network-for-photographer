@@ -70,7 +70,9 @@
 
                  @foreach ($user->categories as $row )
                     <div class="relative">
-                        <button class="px-6 py-1 mt-2 text-gray-800  rounded border border-gray-800">{{ $row->name }}</button>
+                        <div class="mt-2 py-1  rounded border border-gray-800">
+                            <a href="?category_id={{ $row->id }}" class="px-6  text-gray-800 ">{{ $row->name }} ({{ $row->posts_count }})</a>
+                        </div>
                         <form id="{{$row->id}}" action="{{route('category.delete', ['id' => $row->id])}}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -78,6 +80,9 @@
                         </form>
                     </div>
                  @endforeach
+                 <div class="mt-2 py-1  rounded border border-gray-800">
+                    <a href="/home" class="px-6  text-gray-800 ">All</a>
+                </div>
             </div>
             <div>
                 <div>
@@ -108,14 +113,15 @@
                     </div>
                 </div>
                 <p class="text-sm m-2 my-4">{{ $row->title }}</p>
+                <p class="text-sm m-2 my-4 text-blue-500">#{{ $row->category->name }}</p>
                 @if(count($row->image) > 1)
                     <div class="grid grid-cols-2 gap-4">
                         @foreach ($row->image as $row2)
-                             <img src="{{ asset('postimage/'.$row2) }}" class="object-cover h-40 rounded-xl" alt="">
+                             <img src="{{ asset('postimage/'.$row2) }}" class="object-cover w-full h-40 rounded-xl" alt="">
                         @endforeach
                     </div>
                 @else
-                    <img src="{{ asset('postimage/'.$row->image[0]) }}" class="object-cover rounded-xl" alt="">
+                    <img src="{{ asset('postimage/'.$row->image[0]) }}" class="object-cover w-full rounded-xl" alt="">
                 @endif
             </div>
             @endforeach
