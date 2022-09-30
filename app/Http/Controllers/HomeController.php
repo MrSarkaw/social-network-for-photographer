@@ -27,11 +27,11 @@ class HomeController extends Controller
         $user = User::where('id', auth()->id())->with(['categories' => function($q){
             $q->withCount('posts');
         }, 'posts' =>function($q) use($request){
-            $q->with('category');
+            $q->with('category')->latest();
 
             if($request->category_id)
             $q->where('category_id', $request->category_id);
-        }])->firstOrFail();
+        }])->withCount('posts')->firstOrFail();
         return view('home', compact('user'));
     }
 }

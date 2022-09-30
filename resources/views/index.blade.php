@@ -11,11 +11,12 @@
     <div >
         <p class="text-2xl font-bold">New Users</p>
         <div class="flex  space-x-10 mt-3">
-            <div>
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="object-cover p-[2px] w-14 h-14 rounded-full " alt="">
-                <p class=" text-xs text-gray-300 font-bold text-center">lanya</p>
-            </div>
-
+           @foreach ($newUser as $row)
+                <div>
+                    <img src="{{ $row->avatar != null ? asset('coverimage/'.$row->avatar): 'https://ionicframework.com/docs/demos/api/avatar/avatar.svg' }}" class="object-cover p-[2px] mx-auto w-14 h-14 rounded-full " alt="">
+                    <p class=" text-xs text-gray-500 uppercase font-bold text-center">{{ $row->name }}</p>
+                </div>
+           @endforeach
         </div>
     </div>
 
@@ -24,6 +25,7 @@
     <div >
         <p class="text-2xl font-bold">Top Photographers</p>
         <div class="grid grid-cols-3  gap-10 mt-3">
+            
             <div class="p-3 w-full 2xl:w-9/12 shadow rounded-xl">
                 <div class="flex  justify-center relative space-x-3 pb-16">
                     <img src="https://wallpaperfordesktop.com/wp-content/uploads/2022/03/Street-Wallpaper-1024x576.jpg" class="w-24  h-24 xl:w-5/12 xl:h-40 object-cover rounded-2xl" alt="">
@@ -39,7 +41,7 @@
     </div>
 
 
-    <div >
+    {{-- <div >
         <p class="text-2xl font-bold">Your Feed</p>
         <div class="mt-4">
             <div class="flex items-center space-x-4">
@@ -55,6 +57,6 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 </div>
 @endsection

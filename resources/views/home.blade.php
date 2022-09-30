@@ -41,7 +41,7 @@
     <div class="flex  items-center justify-between w-10/12 mx-auto">
         <div class="space-x-14 font-bold flex items-center justify-between">
             <div class="text-center">
-                <p class="text-sm">20</p>
+                <p class="text-sm">{{ $user->posts_count }}</p>
                 <p class="text-xs text-gray-500">Posts</p>
             </div>
             <div class="text-center">

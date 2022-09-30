@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\ProfileController;
@@ -16,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicController::class, 'index'])->name('index');
 
 Auth::routes();
 

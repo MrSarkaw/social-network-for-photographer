@@ -28,6 +28,13 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $appends = ['count_post'];
+
+    public function getCountPostAttribute(){
+        return count($this->posts);
+    }
+
+  //relation
     public function categories(){
         return $this->hasMany(Category::class, 'user_id');
     }
