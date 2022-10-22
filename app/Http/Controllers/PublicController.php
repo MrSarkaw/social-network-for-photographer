@@ -20,4 +20,11 @@ class PublicController extends Controller
 
         return view('index',  compact('newUser', 'topPhotographer'));
     }
+
+
+    public function getUser($id){
+        return response()->json([
+            'user' => User::where('id', $id)->with('categories')->firstOrFail()
+        ]);
+    }
 }

@@ -41,7 +41,7 @@
                             <div class="w-24  h-24 xl:w-5/12 xl:h-40 object-cover rounded-2xl bg-gray-400"></div>
                         @endif
 
-                        <div onclick="showSide()"  class="absolute -bottom-1">
+                        <div onclick="showSide({{ $row->id }})"  class="absolute -bottom-1">
                             <img  src="{{ $row->avatar != null ? asset('coverimage/'.$row->avatar): 'https://ionicframework.com/docs/demos/api/avatar/avatar.svg' }}" class="object-cover p-[2px] w-16 h-16 mx-auto rounded-full bg-white" alt="">
                             <p class=" text-xl text-black font-bold text-center">{{ $row->name }}</p>
                             <p class=" text-sm text-gray-400 font-bold text-center">{{ $row->location }}</p>
