@@ -47,30 +47,7 @@
 
                     </div>
 
-                    {{-- <div class="h-[64vh] rounded-tl-3xl rounded-tr-3xl rounded-br-[45px] p-3 2xl:p-10 overflow-y-scroll bg-white mt-10">
-                        <p class="text-2xl font-bold mb-3 2xl:mb-10">Photos</p>
-                        <div class="grid grid-cols-2 gap-5">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover col-span-2 rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
-                            <img src="https://wallpaperaccess.com/full/6497051.jpg" class="object-cover rounded-xl" alt="">
 
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -116,19 +93,34 @@
 
                 content+='</div>'
 
+                //posts
+
+                let posts = '<div class="h-[64vh] rounded-tl-3xl rounded-tr-3xl rounded-br-[45px] p-3 2xl:p-10 overflow-y-scroll bg-white mt-10">'
+                                +'<p class="text-2xl font-bold mb-3 2xl:mb-10">Photos</p>    <div class="grid grid-cols-2 gap-5">'
+
+
+
+                if(data.user.posts.length > 0){
+                    data.user.posts.forEach((element, index) => {
+                        posts+='<img src="/postimage/'+element.image[0]+'" class="object-cover w-full  '+(index==0?'col-span-2':'')+' rounded-xl" alt="">'
+                    });
+
+                    posts+= '</div> </div>'
+
+                    content+=posts
+                }else{
+                    content+='<p class="text-xl text-center text-white mt-10">0 post</p>'
+                }
+
                 document.getElementById('userinfo').innerHTML = content;
 
 
                 document.getElementById('mainContent').classList.add('flex')
-                document.getElementById('leftSide').classList.add('w-7/12')
-                document.getElementById('leftSide').classList.remove('w-full')
             })
         }
 
         const hideSide = () =>{
             document.getElementById('mainContent').classList.remove('flex')
-            document.getElementById('leftSide').classList.remove('w-7/12')
-            document.getElementById('leftSide').classList.add('w-full')
         }
     </script>
 </html>
