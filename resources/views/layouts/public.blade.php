@@ -16,7 +16,7 @@
             <div class="py-14 h-[97vh] p-2 w-1/12 text-gray-500 text-xl text-center flex flex-col justify-between">
                 <a href="">Logo</a>
                 <div class="grid grid-cols-1 gap-10">
-                    <a href="" class="activeMenu"><i class="fas fa-home"></i></a>
+                    <a href="{{ route('index') }}" class="{{ Route::currentRouteName() == 'index'? 'activeMenu':'' }}"><i class="fas fa-home"></i></a>
                     <a href="" class=""><i class="fas fa-bell"></i></a>
                     <a href="" class=""><i class="fas fa-plus"></i></a>
                     <a href="" class=""><i class="fas fa-heart"></i></a>
@@ -25,10 +25,20 @@
                     @endguest
 
                     @auth
-                        <a href="{{ route('home') }}" class=""><i class="fas fa-user"></i></a>
+                        <a href="{{ route('home') }}" class="{{ Route::currentRouteName() == 'home'? 'activeMenu':'' }}"><i class="fas fa-user"></i></a>
                     @endauth
                 </div>
-                <a href="" class=" border-t-2 w-14 mx-auto border-gray-100/10 pt-6"><i class="fas fa-power-off"></i></a>
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class=" border-t-2 w-14 mx-auto border-gray-100/10 pt-6"><i class="fas fa-power-off"></i></button>
+                    </form>
+                @endauth
+                @guest
+                    <a href="{{ route('login') }}" class="{{ Route::currentRouteName() == 'login'? 'text-white':'' }} border-t-2 w-14 mx-auto border-gray-100/10 pt-6">
+                        <i class="fas fa-sign-in"></i>
+                    </a>
+                @endguest
             </div>
             <div id="mainContent" class="bg-white justify-between  rounded-3xl overflow-hidden h-[97vh]  w-11/12">
 
@@ -79,10 +89,14 @@
                                     +'<span class="text-sm text-gray-400">Following</span>'
                                +' </div>'
 
-                                +'<div>'
-                                +'<button class="px-6 py-1 mt-2 text-white font-bold rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">Follow</button>'
-                                +'</div>'
-                            +'</div>'
+                                @auth
+                                    if(data.user.id != {{auth()->id()}}){
+                                        content+='<div><button onclick="sendFollow('+data.user.id+')" class="px-6 py-1 mt-2 text-white font-bold rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">Follow</button></div>'
+                                    }
+
+                                @endauth
+
+                            content+='</div>'
 
                 //categories
                 content+= '<div class="grid w-10/12 mx-auto px-2 mt-10 text-white grid-cols-3 2xl:grid-cols-5 gap-1 text-xs  text-center">'
@@ -121,6 +135,13 @@
 
         const hideSide = () =>{
             document.getElementById('mainContent').classList.remove('flex')
+        }
+
+
+        let sendFollow= (id)=>{
+            axios.post('/send/follow/'+id).then(()=>{
+
+            })
         }
     </script>
 </html>

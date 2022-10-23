@@ -97,7 +97,11 @@
             <div class="w-5/12 bg-white mx-auto shadow rounded-xl p-2 ">
                 <div class="flex items-center relative justify-between space-x-4">
                     <div class="flex items-center space-x-4">
-                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="object-cover p-[2px] w-16 h-16 rounded-full bg-white" alt="">
+                        @if($user->cover)
+                        <img src="{{ asset("coverimage/".$user->cover) }}" class="object-cover p-[2px] w-16 h-16 rounded-full bg-white"  alt="">
+                        @else
+                        <img src="http://wallpapers.net/web/wallpapers/reflection-of-neon-lights-at-street-hd-wallpaper/2560x1440.jpeg" class="object-cover p-[2px] w-16 h-16 rounded-full bg-white"  alt="">
+                        @endif
                         <div>
                             <p>{{ $user->name }}</p>
                             <p class="text-sm text-gray-400">{{$row->created_at->diffForHumans()}}</p>

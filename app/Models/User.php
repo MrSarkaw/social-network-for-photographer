@@ -42,4 +42,13 @@ class User extends Authenticatable
     public function posts(){
         return $this->hasMany(Post::class, 'user_id');
     }
+
+
+    public function following(){
+        return $this->hasMany(Follow::class, 'sender_id');
+    }
+
+    public function followers(){
+        return $this->hasMany(Follow::class, 'receiver_id');
+    }
 }

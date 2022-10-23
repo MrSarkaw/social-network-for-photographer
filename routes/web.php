@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\User\CategoryController;
+use App\Http\Controllers\User\FollowController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('profile/delete/category/{id}', [CategoryController::class, 'deleteCategory'])->name('category.delete');
     Route::post('/profile/post', [PostController::class, 'store'])->name('post.store');
     Route::delete('/profile/delete/{id}', [PostController::class, 'delete'])->name('post.delete');
+
+
+    //follow
+    Route::post('/send/follow/{id}', [FollowController::class, 'store']);
 });
