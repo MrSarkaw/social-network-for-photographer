@@ -12,9 +12,15 @@ class FollowController extends Controller
        User::findOrFail($id);
 
        if(auth()->id() != $id){
-        auth()->user()->following()->create([
-            'receiver_id' => $id
-        ]);
+        $check =  auth()->user()->following()->where('receiver_id', $id)->first();
+
+        if($check){
+            $check->delete();
+        }else{
+            auth()->user()->following()->create([
+                'receiver_id' => $id
+            ]);
+        }
        }
     }
 }

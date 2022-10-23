@@ -24,7 +24,8 @@ class PublicController extends Controller
 
     public function getUser($id){
         return response()->json([
-            'user' => User::where('id', $id)->with('categories')->firstOrFail()
+            'check' => auth()->user()->following()->where('receiver_id', $id)->first(),
+            'user' => User::where('id', $id)->with('categories')->withCount('followers', 'following')->firstOrFail()
         ]);
     }
 }

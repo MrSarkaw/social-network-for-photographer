@@ -64,8 +64,10 @@
     </body>
 
     <script>
+        let checkFollow = false;
         const showSide = (id) =>{
             axios.get('/getuser/'+id).then(({data})=>{
+                checkFollow = data.check? true: false;
                 let img = data.user.avatar? '/coverimage/'+data.user.avatar : 'https://ionicframework.com/docs/demos/api/avatar/avatar.svg'
                 let content = '<div class="lg:p-5 2xl:p-14 text-white">'
                                 +'<div class="flex items-center space-x-6 ">'
@@ -80,18 +82,18 @@
                            +' </div>'
                             +'<div class="grid px-3 text-white grid-cols-3 gap-5 text-center">'
                                 +'<div>'
-                                   +' <p class="text-2xl font-bold">17k</p>'
+                                   +' <p class="text-2xl font-bold" id="followrs_count">'+data.user.followers_count+'</p>'
                                     +'<span class="text-sm text-gray-400">Followers</span>'
                                +' </div>'
 
                                 +'<div>'
-                                    +'<p class="text-2xl font-bold">321</p>'
+                                    +'<p class="text-2xl font-bold">'+data.user.following_count+'</p>'
                                     +'<span class="text-sm text-gray-400">Following</span>'
                                +' </div>'
 
                                 @auth
                                     if(data.user.id != {{auth()->id()}}){
-                                        content+='<div><button onclick="sendFollow('+data.user.id+')" class="px-6 py-1 mt-2 text-white font-bold rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">Follow</button></div>'
+                                        content+='<div><button id="followbtn" onclick="sendFollow('+data.user.id+')" class="px-6 py-1 mt-2 text-white font-bold rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">'+(data.check ? 'unfollow' :'follow')+'</button></div>'
                                     }
 
                                 @endauth
@@ -139,8 +141,18 @@
 
 
         let sendFollow= (id)=>{
+            console.log(checkFollow)
             axios.post('/send/follow/'+id).then(()=>{
-
+              let count =   document.getElementById('followrs_count')
+                if(checkFollow){
+                    document.getElementById('followbtn').innerHTML="follow"
+                    count.innerHTML -= 1
+                    checkFollow = false;
+                }else{
+                   document.getElementById('followbtn').innerHTML="unfollow"
+                   count.innerHTML = 1 + +count.innerHTML
+                   checkFollow = true;
+                }
             })
         }
     </script>
