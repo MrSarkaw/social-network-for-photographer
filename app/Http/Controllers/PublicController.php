@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -24,8 +25,9 @@ class PublicController extends Controller
 
     public function getUser($id){
         return response()->json([
-            'check' => auth()->user()->following()->where('receiver_id', $id)->first(),
+            'check' => auth()->user() ?  auth()->user()->following()->where('receiver_id', $id)->first() : null,
             'user' => User::where('id', $id)->with('categories')->withCount('followers', 'following')->firstOrFail()
         ]);
     }
+
 }

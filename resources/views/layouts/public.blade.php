@@ -61,6 +61,22 @@
                 </div>
             </div>
         </div>
+        <div id="followmodal" class="absolute hidden top-0 left-0 h-screen w-full bg-black/60 flex items-center justify-center">
+            <div class="w-96 h-96 bg-white rounded ">
+                <div class="">
+                    <button onclick="togglefollowmodal()" class="m-2 p-2 text-2xl"><i class="fas fa-times"></i></button>
+                    <div class="max-h-72 overflow-y-scroll grid gap-10 z-50  bottom-0">
+                        <div class="border p-2 flex ">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80" class="object-cover p-[2px] w-16 h-16 rounded-full bg-white" alt="">
+                            <div class="mt-3">
+                                <p>Lanya</p>
+                                <p class="text-sm text-gray-400">2 min ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 
     <script>
@@ -81,14 +97,14 @@
                                +' </div>'
                            +' </div>'
                             +'<div class="grid px-3 text-white grid-cols-3 gap-5 text-center">'
-                                +'<div>'
+                                +'<div onclick="togglefollowmodal()" class="cursor-pointer">'
                                    +' <p class="text-2xl font-bold" id="followrs_count">'+data.user.followers_count+'</p>'
-                                    +'<span class="text-sm text-gray-400">Followers</span>'
+                                    +'<button  class="text-sm text-gray-400">Followers</button>'
                                +' </div>'
 
-                                +'<div>'
+                                +'<div onclick="togglefollowmodal()" class="cursor-pointer">'
                                     +'<p class="text-2xl font-bold">'+data.user.following_count+'</p>'
-                                    +'<span class="text-sm text-gray-400">Following</span>'
+                                    +'<button  class="text-sm text-gray-400">Following</button>'
                                +' </div>'
 
                                 @auth
@@ -154,6 +170,11 @@
                    checkFollow = true;
                 }
             })
+        }
+
+
+        let togglefollowmodal = ()=>{
+            document.getElementById('followmodal').classList.toggle('hidden')
         }
     </script>
 </html>
